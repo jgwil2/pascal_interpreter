@@ -27,6 +27,13 @@ class Token(object):
         self.type = type
         self.value = value
 
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__)
+            and self.type == other.type
+            and self.value == other.value
+        )
+
     def __str__(self):
         return 'Token({type}, {value})'.format(
             type=self.type,
@@ -59,12 +66,6 @@ class Lexer(object):
             self.current_char = self.text[self.pos]
         except IndexError:
             self.current_char = None
-
-    def _get_current_char(self):
-        try:
-            return self.text[self.pos]
-        except IndexError:
-            return None
 
     def _peek(self):
         peek_pos = self.pos + 1

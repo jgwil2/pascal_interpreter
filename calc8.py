@@ -151,7 +151,7 @@ class Compound(ASTNode):
         self.children = []
 
     def __str__(self):
-        pass
+        return 'BEGIN ' + ' '.join(map(str, self.children)) + ' END'
 
     def accept(self, visitor):
         pass
@@ -164,7 +164,11 @@ class Assignment(ASTNode):
         self.right = right
 
     def __str__(self):
-        pass
+        return '({left} {op} {right})'.format(
+            left=str(self.left),
+            op=self.op.value,
+            right=str(self.right)
+        )
 
     def accept(self, visitor):
         pass
@@ -176,14 +180,17 @@ class Var(ASTNode):
         self.value = token.value
 
     def __str__(self):
-        pass
+        return '{value}'.format(
+            value=self.value
+        )
 
     def accept(self, visitor):
         pass
 
 class NoOp(ASTNode):
     '''represents an empty statement'''
-    pass
+    def __str__(self):
+        return ''
 
 class BinOp(ASTNode):
     '''represents a binary operation'''
@@ -319,8 +326,9 @@ class Parser(object):
         '''
         left = self.variable()
         token = self.current_token
+        self.eat(ASSIGN)
         right = self.expr()
-        node = Assign(left, token, right)
+        node = Assignment(left, token, right)
         return node
 
     def statement(self):
@@ -345,7 +353,7 @@ class Parser(object):
         node = self.statement()
         results = [node]
 
-        while self.current_token.type = SEMI:
+        while self.current_token.type == SEMI:
             self.eat(SEMI)
             results.append(self.statement())
 

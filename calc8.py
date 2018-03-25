@@ -45,7 +45,7 @@ class Token(object):
 
 class Lexer(object):
     def __init__(self, text):
-        self.text = text
+        self.text = text.upper()
         self.pos = 0
         self.current_char = self.text[self.pos]
 
@@ -241,14 +241,14 @@ class Parser(object):
         self.lexer = lexer
         self.current_token = self.lexer.get_next_token()
 
-    def error(self):
-        raise Exception('Invalid syntax')
+    def error(self, error_message='Invalid syntax'):
+        raise Exception(error_message)
 
     def eat(self, token_type):
         if self.current_token.type == token_type:
             self.current_token = self.lexer.get_next_token()
         else:
-            self.error()
+            self.error('Expected {}, got {}'.format(token_type, self.current_token.type))
 
     def factor(self):
         '''

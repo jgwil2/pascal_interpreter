@@ -1,6 +1,8 @@
 import unittest
 
-from calc8 import Token, Lexer, Parser
+from lexer import Lexer
+from parser import Parser
+from keywords import Token
 
 class TestLexer(unittest.TestCase):
 

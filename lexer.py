@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, BEGIN,
-    END, ID, ASSIGN, SEMI, DOT, OP_DICT, Token)
+from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF,
+    BEGIN, END, ID, ASSIGN, SEMI, DOT, OP_DICT, Token)
 
 class Lexer(object):
     def __init__(self, text):

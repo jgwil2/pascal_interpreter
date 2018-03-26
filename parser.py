@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, BEGIN,
-    END, ID, ASSIGN, SEMI, DOT)
+from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF,
+    BEGIN, END, ID, ASSIGN, SEMI, DOT)
 
 class ASTNode(object):
     def isBaseNode(self):

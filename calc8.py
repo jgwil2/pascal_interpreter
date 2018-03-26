@@ -56,7 +56,7 @@ class Lexer(object):
         return pos > len(self.text) - 1
 
     def _skip_whitespace(self):
-        if self.current_char == ' ':
+        if self.current_char in ' \r\n':
             self._advance_pos()
             return self._skip_whitespace()
 
@@ -484,25 +484,35 @@ class Interpreter(object):
 
 # TODO add debug argument to print full stacktrace
 def main():
-    while True:
-        try:
-            text = input('calc >')
-        except EOFError:
-            break
+    import sys
+    if len(sys.argv) > 1:
+        text = open(sys.argv[1], 'r').read()
+        lexer = Lexer(text)
+        parser = Parser(lexer)
+        interpreter = Interpreter(parser, CalculatorVisitor())
+        result = interpreter.interpret()
+        print(result)
+        print(interpreter.visitor.GLOBAL_SCOPE)
+    else:
+        while True:
+            try:
+                text = input('calc >')
+            except EOFError:
+                break
 
-        if not text:
-            continue
+            if not text:
+                continue
 
-        try:
-            lexer = Lexer(text)
-            parser = Parser(lexer)
-            interpreter = Interpreter(parser, CalculatorVisitor())
-            result = interpreter.interpret()
-            print(result)
-            print(interpreter.visitor.GLOBAL_SCOPE)
-        except Exception as e:
-            print(e)
-            continue
+            try:
+                lexer = Lexer(text)
+                parser = Parser(lexer)
+                interpreter = Interpreter(parser, CalculatorVisitor())
+                result = interpreter.interpret()
+                print(result)
+                print(interpreter.visitor.GLOBAL_SCOPE)
+            except Exception as e:
+                print(e)
+                continue
 
 if __name__ == '__main__':
     main()

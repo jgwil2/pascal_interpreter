@@ -17,6 +17,11 @@ class TestLexer(unittest.TestCase):
         self.lexer._skip_whitespace()
         self.assertEqual(self.lexer.current_char, 'B')
 
+        self.lexer = Lexer('BEGIN\r\n  a := 2;\r\nEND.')
+        self.lexer._advance_pos(5)
+        self.lexer._skip_whitespace()
+        self.assertEqual(self.lexer.current_char, 'A')
+
     def test_advance_pos(self):
         self.lexer._advance_pos()
         self.assertEqual(self.lexer.current_char, 'E')
@@ -41,13 +46,13 @@ class TestLexer(unittest.TestCase):
 
         self.lexer._skip_whitespace()
         token = self.lexer._handle_identifier()
-        self.assertEqual(token, Token('ID', 'a'))
+        self.assertEqual(token, Token('ID', 'A'))
 
     def test_get_next_token(self):
         token = self.lexer.get_next_token()
         self.assertEqual(token, Token('BEGIN', 'BEGIN'))
         token = self.lexer.get_next_token()
-        self.assertEqual(token, Token('ID', 'a'))
+        self.assertEqual(token, Token('ID', 'A'))
         token = self.lexer.get_next_token()
         self.assertEqual(token, Token('ASSIGN', ':='))
         token = self.lexer.get_next_token()

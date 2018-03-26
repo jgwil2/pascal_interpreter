@@ -154,7 +154,7 @@ class Compound(ASTNode):
         return 'BEGIN ' + ' '.join(map(str, self.children)) + ' END'
 
     def accept(self, visitor):
-        pass
+        return visitor.visit_compound(self)
 
 class Assignment(ASTNode):
     '''represents a variable assignment'''
@@ -171,7 +171,7 @@ class Assignment(ASTNode):
         )
 
     def accept(self, visitor):
-        pass
+        return visitor.visit_assignment(self)
 
 class Var(ASTNode):
     '''represents a variable'''
@@ -185,12 +185,15 @@ class Var(ASTNode):
         )
 
     def accept(self, visitor):
-        pass
+        return visitor.visit_var(self)
 
 class NoOp(ASTNode):
     '''represents an empty statement'''
     def __str__(self):
         return ''
+
+    def accept(self, visitor):
+        return visitor.visit_no_op(self)
 
 class BinOp(ASTNode):
     '''represents a binary operation'''
@@ -397,6 +400,32 @@ class Parser(object):
 ######################################################################
 
 class Visitor(object):
+    '''
+    base class for Visitors - Visitors must define their own
+    calculate method which is used to perform binary ops
+    Interpreter is configured with one Visitor
+    '''
+    GLOBAL_SCOPE = {}
+
+    def visit_compound(self, node):
+        for child in node.children:
+            child.accept(self)
+
+    def visit_assignment(self, node):
+        var_name = node.left.value
+        self.GLOBAL_SCOPE[var_name] = node.right.accept(self)
+        return self.GLOBAL_SCOPE[var_name]
+
+    def visit_var(self, node):
+        var_name = node.value
+        val = self.GLOBAL_SCOPE.get(var_name)
+        if val is None:
+            raise NameError(repr(var_name))
+        return val
+
+    def visit_no_op(self, node):
+        pass
+
     def visit_bin_op(self, node):
         left = node.left.accept(self)
         right = node.right.accept(self)
@@ -470,6 +499,7 @@ def main():
             interpreter = Interpreter(parser, CalculatorVisitor())
             result = interpreter.interpret()
             print(result)
+            print(interpreter.visitor.GLOBAL_SCOPE)
         except Exception as e:
             print(e)
             continue

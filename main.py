@@ -1,3 +1,5 @@
+import sys
+
 from interpreter import Interpreter, CalculatorVisitor
 from lexer import Lexer
 from parser import Parser
@@ -12,7 +14,6 @@ def interpret(text):
 
 # TODO add debug argument to print full stacktrace
 def main():
-    import sys
     if len(sys.argv) > 1:
         text = open(sys.argv[1], 'r').read()
         interpret(text)

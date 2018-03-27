@@ -5,11 +5,11 @@
         'END', 'ID', 'ASSIGN', 'SEMI', 'DOT'
 )
 
-OP_DICT = {
+KEYWORDS = {
     '+': PLUS,
     '-': MINUS,
     '*': MUL,
-    '/': DIV,
+    'DIV': DIV,
     '(': LPAREN,
     ')': RPAREN
 }

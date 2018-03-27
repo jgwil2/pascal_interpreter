@@ -5,7 +5,7 @@
 ######################################################################
 
 from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF,
-    BEGIN, END, ID, ASSIGN, SEMI, DOT, OP_DICT, Token)
+    BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
 
 class Lexer(object):
     def __init__(self, text):
@@ -20,7 +20,7 @@ class Lexer(object):
         return pos > len(self.text) - 1
 
     def _skip_whitespace(self):
-        if self.current_char in ' \r\n':
+        if self.current_char is not None and self.current_char in ' \r\n':
             self._advance_pos()
             return self._skip_whitespace()
 
@@ -31,8 +31,8 @@ class Lexer(object):
         except IndexError:
             self.current_char = None
 
-    def _peek(self):
-        peek_pos = self.pos + 1
+    def _peek(self, number=1):
+        peek_pos = self.pos + number
         if self._pos_exceeds_eof(peek_pos):
             return None
         return self.text[peek_pos]
@@ -54,10 +54,10 @@ class Lexer(object):
         '''
         Lexical analyser
         '''
+        self._skip_whitespace()
+
         if self.current_char is None:
             return Token(EOF, None)
-
-        self._skip_whitespace()
 
         if self.current_char.isdigit():
             token_number = ''
@@ -71,10 +71,16 @@ class Lexer(object):
             self._advance_pos(pos - self.pos)
             return token
 
-        if self.current_char in OP_DICT:
-            token = Token(OP_DICT[self.current_char], self.current_char)
+        if self.current_char in KEYWORDS:
+            token = Token(KEYWORDS[self.current_char], self.current_char)
             self._advance_pos()
             return token
+
+        if (self.current_char == 'D'
+            and self._peek() == 'I'
+            and self._peek(2) == 'V'):
+            self._advance_pos(3)
+            return Token(DIV, DIV)
 
         if self.current_char == ':' and self._peek() == '=':
             self._advance_pos(2)

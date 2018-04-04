@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF,
-    BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
+from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN,
+    RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
 
 class Lexer(object):
     def __init__(self, text):
@@ -80,19 +80,11 @@ class Lexer(object):
             and self._peek() == 'I'
             and self._peek(2) == 'V'):
             self._advance_pos(3)
-            return Token(DIV, DIV)
+            return Token(INTEGER_DIV, INTEGER_DIV)
 
         if self.current_char == ':' and self._peek() == '=':
             self._advance_pos(2)
             return Token(ASSIGN, ':=')
-
-        if self.current_char == ';':
-            self._advance_pos()
-            return Token(SEMI, ';')
-
-        if self.current_char == '.':
-            self._advance_pos()
-            return Token(DOT, '.')
 
         if self.current_char.isalpha():
             return self._handle_identifier()

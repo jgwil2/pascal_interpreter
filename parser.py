@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF,
-    BEGIN, END, ID, ASSIGN, SEMI, DOT)
+from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN,
+    RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT)
 
 class ASTNode(object):
     def isBaseNode(self):
@@ -16,6 +16,12 @@ class ASTNode(object):
 
     def accept(self, visitor):
         pass
+
+    def __str__(self):
+        pass
+
+    def __repr__(self):
+        return self.__str__()
 
 class Compound(ASTNode):
     '''represents a BEGIN..END block'''
@@ -158,12 +164,14 @@ class Parser(object):
         '''
         node = self.factor()
 
-        while self.current_token.type in (MUL, DIV):
+        while self.current_token.type in (MUL, DIV, INTEGER_DIV):
             token = self.current_token
             if token.type == MUL:
                 self.eat(MUL)
             elif token.type == DIV:
                 self.eat(DIV)
+            elif token.type == INTEGER_DIV:
+                self.eat(INTEGER_DIV)
             node = BinOp(node, token, self.factor())
 
         return node
@@ -174,6 +182,7 @@ class Parser(object):
         '''
         node = self.term()
 
+        import pdb; pdb.set_trace()
         while self.current_token.type in (PLUS, MINUS):
             token = self.current_token
             if token.type == PLUS:

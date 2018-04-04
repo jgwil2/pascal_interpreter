@@ -1,8 +1,8 @@
 # token types
-(INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, BEGIN,
+(INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN, RPAREN, EOF, BEGIN,
     END, ID, ASSIGN, SEMI, DOT) = (
-        'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', '(', ')', 'EOF', 'BEGIN',
-        'END', 'ID', 'ASSIGN', 'SEMI', 'DOT'
+        'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', 'INTEGER_DIV', '(', ')',
+        'EOF', 'BEGIN', 'END', 'ID', 'ASSIGN', 'SEMI', 'DOT'
 )
 
 KEYWORDS = {
@@ -11,7 +11,9 @@ KEYWORDS = {
     '*': MUL,
     'DIV': DIV,
     '(': LPAREN,
-    ')': RPAREN
+    ')': RPAREN,
+    ';': SEMI,
+    '.': DOT
 }
 
 class Token(object):

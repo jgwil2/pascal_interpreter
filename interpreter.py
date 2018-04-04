@@ -4,7 +4,7 @@
 #
 ######################################################################
 
-from keywords import PLUS, MINUS, MUL, DIV
+from keywords import PLUS, MINUS, MUL, DIV, INTEGER_DIV
 
 class Visitor(object):
     '''
@@ -59,6 +59,8 @@ class CalculatorVisitor(Visitor):
         elif node.op.type == MUL:
             return left * right
         elif node.op.type == DIV:
+            return left / right
+        elif node.op.type == INTEGER_DIV:
             return left // right
         else:
             raise Exception('Invalid op type')

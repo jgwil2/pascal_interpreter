@@ -9,11 +9,13 @@ KEYWORDS = {
     '+': PLUS,
     '-': MINUS,
     '*': MUL,
-    'DIV': DIV,
+    DIV: DIV,
     '(': LPAREN,
     ')': RPAREN,
     ';': SEMI,
-    '.': DOT
+    '.': DOT,
+    BEGIN: BEGIN,
+    END: END
 }
 
 class Token(object):

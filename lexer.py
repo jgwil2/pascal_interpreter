@@ -38,17 +38,13 @@ class Lexer(object):
         return self.text[peek_pos]
 
     def _handle_identifier(self):
-        RESERVED_KEYWORDS = {
-            'BEGIN': Token(BEGIN, BEGIN),
-            'END': Token(END, END)
-        }
-
         result = ''
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
             self._advance_pos()
 
-        return RESERVED_KEYWORDS.get(result, Token(ID, result))
+        word = KEYWORDS.get(result, ID)
+        return Token(word, result)
 
     def get_next_token(self):
         '''

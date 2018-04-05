@@ -182,7 +182,6 @@ class Parser(object):
         '''
         node = self.term()
 
-        import pdb; pdb.set_trace()
         while self.current_token.type in (PLUS, MINUS):
             token = self.current_token
             if token.type == PLUS:

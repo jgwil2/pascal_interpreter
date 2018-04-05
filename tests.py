@@ -42,7 +42,16 @@ class TestLexer(unittest.TestCase):
         char = self.lexer._peek()
         self.assertIsNone(char)
 
-    def test_handle_identifier(self):
+    def test_handle_number(self):
+        self.lexer = Lexer('42')
+        token = self.lexer._handle_number()
+        self.assertEqual(token, Token('INTEGER_CONST', 42))
+
+        self.lexer = Lexer('1.24')
+        token = self.lexer._handle_number()
+        self.assertEqual(token, Token('FLOAT_CONST', 1.24))
+
+    def test_handle_word(self):
         token = self.lexer._handle_word()
         self.assertEqual(token, Token('BEGIN', 'BEGIN'))
 

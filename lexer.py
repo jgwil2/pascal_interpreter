@@ -44,8 +44,8 @@ class Lexer(object):
             return None
         return self.text[peek_pos]
 
-    def _is_digit(self, char):
-        return self.current_char is not None and self.current_char.isdigit()
+    def _is_digit(_, char):
+        return char is not None and char.isdigit()
 
     def _handle_number(self):
         '''return a multidigit integer or float'''
@@ -57,6 +57,7 @@ class Lexer(object):
             self._advance_pos()
 
             if self.current_char == '.':
+                token_number += self.current_char
                 self._advance_pos()
                 while self._is_digit(self.current_char):
                     token_number += self.current_char

@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN,
-    RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
+from keywords import (INTEGER_CONST, PLUS, MINUS, MUL, DIV, INTEGER_DIV,
+    LPAREN, RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
 
 class Lexer(object):
     def __init__(self, text):
@@ -63,7 +63,7 @@ class Lexer(object):
                 token_number += self.text[pos]
                 pos += 1
 
-            token = Token(INTEGER, int(token_number))
+            token = Token(INTEGER_CONST, int(token_number))
             self._advance_pos(pos - self.pos)
             return token
 

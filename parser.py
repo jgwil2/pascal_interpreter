@@ -4,8 +4,8 @@
 #
 ######################################################################
 
-from keywords import (INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN,
-    RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT)
+from keywords import (INTEGER_CONST, PLUS, MINUS, MUL, DIV, INTEGER_DIV,
+    LPAREN, RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT)
 
 class ASTNode(object):
     def isBaseNode(self):
@@ -136,7 +136,7 @@ class Parser(object):
         '''
         factor: PLUS factor
               | MINUS factor
-              | INTEGER
+              | INTEGER_CONST
               | LPAREN expr RPAREN
               | variable
         '''
@@ -147,8 +147,8 @@ class Parser(object):
         elif token.type == MINUS:
             self.eat(MINUS)
             node = UnaryOp(token, self.factor())
-        elif token.type == INTEGER:
-            self.eat(INTEGER)
+        elif token.type == INTEGER_CONST:
+            self.eat(INTEGER_CONST)
             node = Num(token)
         elif token.type == LPAREN:
             self.eat(LPAREN)

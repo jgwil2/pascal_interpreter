@@ -58,7 +58,7 @@ class TestLexer(unittest.TestCase):
         token = self.lexer.get_next_token()
         self.assertEqual(token, Token('ASSIGN', ':='))
         token = self.lexer.get_next_token()
-        self.assertEqual(token, Token('INTEGER', 2))
+        self.assertEqual(token, Token('INTEGER_CONST', 2))
         token = self.lexer.get_next_token()
         self.assertEqual(token, Token('SEMI', ';'))
         token = self.lexer.get_next_token()
@@ -79,7 +79,7 @@ class TestParser(unittest.TestCase):
 
     def test_eat(self):
         self.parser.eat('MINUS')
-        self.assertEqual(self.parser.current_token, Token('INTEGER', 4))
+        self.assertEqual(self.parser.current_token, Token('INTEGER_CONST', 4))
 
         with self.assertRaises(Exception):
             self.eat('BEGIN')

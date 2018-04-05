@@ -1,8 +1,46 @@
 # token types
-(INTEGER, PLUS, MINUS, MUL, DIV, INTEGER_DIV, LPAREN, RPAREN, EOF, BEGIN,
-    END, ID, ASSIGN, SEMI, DOT) = (
-        'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', 'INTEGER_DIV', '(', ')',
-        'EOF', 'BEGIN', 'END', 'ID', 'ASSIGN', 'SEMI', 'DOT'
+(
+    INTEGER_CONST,
+    FLOAT_CONST,
+    PLUS,
+    MINUS,
+    MUL,
+    DIV,
+    INTEGER_DIV,
+    LPAREN,
+    RPAREN,
+    EOF,
+    PROGRAM,
+    VAR,
+    INTEGER,
+    REAL,
+    BEGIN,
+    END,
+    ID,
+    ASSIGN,
+    SEMI,
+    DOT
+) = (
+    'INTEGER_CONST',
+    'FLOAT_CONST',
+    'PLUS',
+    'MINUS',
+    'MUL',
+    'DIV',
+    'INTEGER_DIV',
+    '(',
+    ')',
+    'EOF',
+    'PROGRAM',
+    'VAR',
+    'INTEGER',
+    'REAL',
+    'BEGIN',
+    'END',
+    'ID',
+    'ASSIGN',
+    'SEMI',
+    'DOT'
 )
 
 KEYWORDS = {

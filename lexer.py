@@ -4,8 +4,9 @@
 #
 ######################################################################
 
-from keywords import (INTEGER_CONST, PLUS, MINUS, MUL, DIV, INTEGER_DIV,
-    LPAREN, RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT, KEYWORDS, Token)
+from keywords import (INTEGER_CONST, FLOAT_CONST, PLUS, MINUS, MUL, DIV,
+    INTEGER_DIV, LPAREN, RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT,
+    KEYWORDS, Token)
 
 class Lexer(object):
     def __init__(self, text):
@@ -22,7 +23,12 @@ class Lexer(object):
     def _skip_whitespace(self):
         if self.current_char is not None and self.current_char in ' \r\n':
             self._advance_pos()
-            return self._skip_whitespace()
+            self._skip_whitespace()
+
+    def _skip_comment(self):
+        self._advance_pos()
+        if self.current_char != '}':
+            self._skip_comment()
 
     def _advance_pos(self, number=1):
         try:
@@ -32,12 +38,36 @@ class Lexer(object):
             self.current_char = None
 
     def _peek(self, number=1):
+        '''return char x number of positions ahead'''
         peek_pos = self.pos + number
         if self._pos_exceeds_eof(peek_pos):
             return None
         return self.text[peek_pos]
 
-    def _handle_identifier(self):
+    def _is_digit(self, char):
+        return self.current_char is not None and self.current_char.isdigit()
+
+    def _handle_number(self):
+        '''return a multidigit integer or float'''
+        token_number = ''
+        pos = self.pos
+
+        while self._is_digit(self.current_char):
+            token_number += self.current_char
+            self._advance_pos()
+
+            if self.current_char == '.':
+                self._advance_pos()
+                while self._is_digit(self.current_char):
+                    token_number += self.current_char
+                    self._advance_pos()
+
+                return Token(FLOAT_CONST, float(token_number))
+
+        return Token(INTEGER_CONST, int(token_number))
+
+    def _handle_word(self):
+        '''return a keyword or identifier'''
         result = ''
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
@@ -47,42 +77,25 @@ class Lexer(object):
         return Token(word, result)
 
     def get_next_token(self):
-        '''
-        Lexical analyser
-        '''
+        '''Lexical analyser'''
         self._skip_whitespace()
 
         if self.current_char is None:
             return Token(EOF, None)
 
         if self.current_char.isdigit():
-            token_number = ''
-            pos = self.pos
-
-            while pos < len(self.text) and self.text[pos].isdigit():
-                token_number += self.text[pos]
-                pos += 1
-
-            token = Token(INTEGER_CONST, int(token_number))
-            self._advance_pos(pos - self.pos)
-            return token
+            return self._handle_number()
 
         if self.current_char in KEYWORDS:
             token = Token(KEYWORDS[self.current_char], self.current_char)
             self._advance_pos()
             return token
 
-        if (self.current_char == 'D'
-            and self._peek() == 'I'
-            and self._peek(2) == 'V'):
-            self._advance_pos(3)
-            return Token(INTEGER_DIV, INTEGER_DIV)
-
         if self.current_char == ':' and self._peek() == '=':
             self._advance_pos(2)
             return Token(ASSIGN, ':=')
 
         if self.current_char.isalpha():
-            return self._handle_identifier()
+            return self._handle_word()
 
         self.error()

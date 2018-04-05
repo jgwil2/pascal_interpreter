@@ -43,11 +43,11 @@ class TestLexer(unittest.TestCase):
         self.assertIsNone(char)
 
     def test_handle_identifier(self):
-        token = self.lexer._handle_identifier()
+        token = self.lexer._handle_word()
         self.assertEqual(token, Token('BEGIN', 'BEGIN'))
 
         self.lexer._skip_whitespace()
-        token = self.lexer._handle_identifier()
+        token = self.lexer._handle_word()
         self.assertEqual(token, Token('ID', 'A'))
 
     def test_get_next_token(self):

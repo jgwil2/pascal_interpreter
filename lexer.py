@@ -29,6 +29,8 @@ class Lexer(object):
         self._advance_pos()
         if self.current_char != '}':
             self._skip_comment()
+        else:
+            self._advance_pos()
 
     def _advance_pos(self, number=1):
         try:
@@ -80,6 +82,10 @@ class Lexer(object):
     def get_next_token(self):
         '''Lexical analyser'''
         self._skip_whitespace()
+
+        if self.current_char == '{':
+            self._skip_comment()
+            return self.get_next_token()
 
         if self.current_char is None:
             return Token(EOF, None)

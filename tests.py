@@ -24,6 +24,11 @@ class TestLexer(unittest.TestCase):
         self.lexer._skip_whitespace()
         self.assertEqual(self.lexer.current_char, 'A')
 
+    def test_skip_comment(self):
+        self.lexer = Lexer('{ test comment } begin a := 2; end.')
+        token = self.lexer.get_next_token()
+        self.assertEqual(token, Token('BEGIN', 'BEGIN'))
+
     def test_advance_pos(self):
         self.lexer._advance_pos()
         self.assertEqual(self.lexer.current_char, 'E')

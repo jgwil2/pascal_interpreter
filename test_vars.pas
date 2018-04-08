@@ -1,4 +1,5 @@
 BEGIN
+    { test comment }
 
     BEGIN
         number := 2;

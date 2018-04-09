@@ -1,3 +1,7 @@
+PROGRAM TestVars;
+VAR
+    number, a, b, c: INTEGER;
+
 BEGIN
     { test comment }
 

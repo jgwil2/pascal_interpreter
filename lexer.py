@@ -4,18 +4,14 @@
 #
 ######################################################################
 
-from keywords import (INTEGER_CONST, FLOAT_CONST, PLUS, MINUS, MUL, DIV,
-    INTEGER_DIV, LPAREN, RPAREN, EOF, BEGIN, END, ID, ASSIGN, SEMI, DOT,
-    KEYWORDS, Token)
+from keywords import (INTEGER_CONST, FLOAT_CONST, EOF, ID, ASSIGN, KEYWORDS,
+    Token)
 
 class Lexer(object):
     def __init__(self, text):
         self.text = text.upper()
         self.pos = 0
         self.current_char = self.text[self.pos]
-
-    def error(self):
-        raise Exception('Error parsing input')
 
     def _pos_exceeds_eof(self, pos):
         return pos > len(self.text) - 1
@@ -93,16 +89,16 @@ class Lexer(object):
         if self.current_char.isdigit():
             return self._handle_number()
 
+        if self.current_char == ':' and self._peek() == '=':
+            self._advance_pos(2)
+            return Token(ASSIGN, ':=')
+
         if self.current_char in KEYWORDS:
             token = Token(KEYWORDS[self.current_char], self.current_char)
             self._advance_pos()
             return token
 
-        if self.current_char == ':' and self._peek() == '=':
-            self._advance_pos(2)
-            return Token(ASSIGN, ':=')
-
         if self.current_char.isalpha():
             return self._handle_word()
 
-        self.error()
+        raise Exception('Error tokenizing input: {}'.format(self.current_char))

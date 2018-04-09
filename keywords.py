@@ -5,7 +5,7 @@
     PLUS,
     MINUS,
     MUL,
-    DIV,
+    FLOAT_DIV,
     INTEGER_DIV,
     LPAREN,
     RPAREN,
@@ -19,14 +19,16 @@
     ID,
     ASSIGN,
     SEMI,
-    DOT
+    DOT,
+    COLON,
+    COMMA
 ) = (
     'INTEGER_CONST',
     'FLOAT_CONST',
     'PLUS',
     'MINUS',
     'MUL',
-    'DIV',
+    'FLOAT_DIV',
     'INTEGER_DIV',
     '(',
     ')',
@@ -40,18 +42,27 @@
     'ID',
     'ASSIGN',
     'SEMI',
-    'DOT'
+    'DOT',
+    'COLON',
+    'COMMA'
 )
 
 KEYWORDS = {
     '+': PLUS,
     '-': MINUS,
     '*': MUL,
-    DIV: DIV,
+    '/': FLOAT_DIV,
+    'DIV': INTEGER_DIV,
     '(': LPAREN,
     ')': RPAREN,
     ';': SEMI,
     '.': DOT,
+    ':': COLON,
+    ',': COMMA,
+    PROGRAM: PROGRAM,
+    VAR: VAR,
+    INTEGER: INTEGER,
+    REAL: REAL,
     BEGIN: BEGIN,
     END: END
 }

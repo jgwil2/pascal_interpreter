@@ -4,15 +4,30 @@
 #
 ######################################################################
 
-from keywords import PLUS, MINUS, MUL, DIV, INTEGER_DIV
+from keywords import PLUS, MINUS, MUL, FLOAT_DIV, INTEGER_DIV
 
 class Visitor(object):
     '''
     base class for Visitors - Visitors must define their own
-    calculate method which is used to perform binary ops
-    Interpreter is configured with one Visitor
+    calculate method which is used to perform binary ops.
+    Interpreter is configured with one Visitor.
     '''
     GLOBAL_SCOPE = {}
+
+    def visit_program(self, node):
+        self.GLOBAL_SCOPE['PROGRAM'] = node.name
+        return node.block.accept(self)
+
+    def visit_block(self, node):
+        for declaration in node.declarations:
+            declaration.accept(self)
+        return node.compound_statement.accept(self)
+
+    def visit_var_decl(self, node):
+        pass
+
+    def visit_type(self, node):
+        pass
 
     def visit_compound(self, node):
         for child in node.children:
@@ -58,7 +73,7 @@ class CalculatorVisitor(Visitor):
             return left - right
         elif node.op.type == MUL:
             return left * right
-        elif node.op.type == DIV:
+        elif node.op.type == FLOAT_DIV:
             return left / right
         elif node.op.type == INTEGER_DIV:
             return left // right

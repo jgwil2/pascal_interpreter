@@ -25,7 +25,7 @@ class Parser(object):
 
     def program(self):
         '''
-        program: compound_statement DOT
+        program: PROGRAM variable SEMI block DOT
         '''
         self.eat(PROGRAM)
         var_node = self.variable()

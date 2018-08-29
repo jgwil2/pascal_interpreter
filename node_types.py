@@ -38,7 +38,7 @@ class Block(ASTNode):
     def __str__(self):
         return 'VAR {} {}'.format(
             ' '.join(map(str, self.declarations)),
-            self.compoound_statement
+            self.compound_statement
         )
 
     def accept(self, visitor):

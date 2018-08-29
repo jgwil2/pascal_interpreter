@@ -1,16 +1,9 @@
-######################################################################
-#
-# INTERPRETER
-#
-######################################################################
-
 from keywords import PLUS, MINUS, MUL, FLOAT_DIV, INTEGER_DIV
 
 class Visitor(object):
     '''
-    base class for Visitors - Visitors must define their own
-    calculate method which is used to perform binary ops.
-    Interpreter is configured with one Visitor.
+    base class for Visitors - Visitors must define their own calculate
+    method which is used to perform binary ops, or they may pass
     '''
     GLOBAL_SCOPE = {}
 
@@ -97,11 +90,14 @@ class LispStyleNotationVisitor(Visitor):
         )
 
 class Interpreter(object):
-    def __init__(self, parser, visitor):
-        self.parser = parser
-        self.visitor = visitor
+    '''
+    Interpreter is configured with one parse tree (output of parser)
+    `interpret` method may be called several times with different
+    visitors in order to allow multiple passes through the parse tree
+    '''
+    def __init__(self, tree):
+        self.tree = tree
 
-    def interpret(self):
-        tree = self.parser.parse()
-        # print(tree)
-        return tree.accept(self.visitor)
+    def interpret(self, visitor):
+        print(self.tree)
+        return self.tree.accept(visitor)

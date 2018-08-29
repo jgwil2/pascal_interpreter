@@ -7,10 +7,13 @@ from parser import Parser
 def interpret(text):
     lexer = Lexer(text)
     parser = Parser(lexer)
-    interpreter = Interpreter(parser, CalculatorVisitor())
-    result = interpreter.interpret()
-    print(result)
-    print(interpreter.visitor.GLOBAL_SCOPE)
+    tree = parser.parse()
+    interpreter = Interpreter(tree)
+    calculator_visitor = CalculatorVisitor()
+    result = interpreter.interpret(calculator_visitor)
+    # print(result)
+    for k, v in sorted(calculator_visitor.GLOBAL_SCOPE.items()):
+        print('%s: %s' % (k, v))
 
 # TODO add debug argument to print full stacktrace
 def main():

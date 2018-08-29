@@ -1,8 +1,8 @@
 import unittest
 
-from lexer import Lexer
-from parser import Parser
-from keywords import Token
+from pascal_interpreter.lexer import Lexer
+from pascal_interpreter.parser import Parser
+from pascal_interpreter.keywords import Token
 
 class TestLexer(unittest.TestCase):
 

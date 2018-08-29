@@ -1,8 +1,8 @@
 import sys
 
-from interpreter import Interpreter, Visitor
-from lexer import Lexer
-from parser import Parser
+from pascal_interpreter.interpreter import Interpreter, Visitor
+from pascal_interpreter.lexer import Lexer
+from pascal_interpreter.parser import Parser
 
 def interpret(text):
     lexer = Lexer(text)

@@ -1,4 +1,4 @@
-from keywords import PLUS, MINUS, MUL, FLOAT_DIV, INTEGER_DIV
+from .keywords import PLUS, MINUS, MUL, FLOAT_DIV, INTEGER_DIV
 
 def calculate_values(func):
     def wrapper_calc(obj, node, left, right):

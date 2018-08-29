@@ -1,4 +1,4 @@
-from keywords import (INTEGER_CONST, FLOAT_CONST, EOF, ID, ASSIGN, KEYWORDS,
+from .keywords import (INTEGER_CONST, FLOAT_CONST, EOF, ID, ASSIGN, KEYWORDS,
     Token)
 
 class Lexer(object):

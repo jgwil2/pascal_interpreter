@@ -1,8 +1,8 @@
-from keywords import (INTEGER_CONST, FLOAT_CONST, PLUS, MINUS, MUL, FLOAT_DIV,
+from .keywords import (INTEGER_CONST, FLOAT_CONST, PLUS, MINUS, MUL, FLOAT_DIV,
     INTEGER_DIV, LPAREN, RPAREN, EOF, PROGRAM, VAR, INTEGER, REAL, BEGIN, END,
     ID, ASSIGN, SEMI, DOT, COLON, COMMA)
 
-from node_types import (Program, Block, VarDecl, Type, CompoundStatement,
+from .node_types import (Program, Block, VarDecl, Type, CompoundStatement,
     AssignmentStatement, Var, NoOp, BinOp, UnaryOp, Num)
 
 class Parser(object):

@@ -1,9 +1,28 @@
 from keywords import PLUS, MINUS, MUL, FLOAT_DIV, INTEGER_DIV
 
+def calculate_values(func):
+    def wrapper_calc(obj, node, left, right):
+        func(obj, node, left, right)
+        if node.op.type == PLUS:
+            return left + right
+        elif node.op.type == MINUS:
+            return left - right
+        elif node.op.type == MUL:
+            return left * right
+        elif node.op.type == FLOAT_DIV:
+            return left / right
+        elif node.op.type == INTEGER_DIV:
+            return left // right
+        else:
+            raise Exception('Invalid op type')
+    return wrapper_calc
+
 class Visitor(object):
     '''
-    base class for Visitors - Visitors must define their own calculate
-    method which is used to perform binary ops, or they may pass
+    base class for Visitors - defines methods for non-terminals in tree
+    Visitors may define their own calculate method for side effects, but
+    it must use the `caculate_values` decorator to ensure that names in
+    `GLOBAL_SCOPE` have non-`None` values
     '''
     GLOBAL_SCOPE = {}
 
@@ -58,36 +77,27 @@ class Visitor(object):
     def visit_num(self, node):
         return node.value
 
-class CalculatorVisitor(Visitor):
+    @calculate_values
     def calculate(self, node, left, right):
-        if node.op.type == PLUS:
-            return left + right
-        elif node.op.type == MINUS:
-            return left - right
-        elif node.op.type == MUL:
-            return left * right
-        elif node.op.type == FLOAT_DIV:
-            return left / right
-        elif node.op.type == INTEGER_DIV:
-            return left // right
-        else:
-            raise Exception('Invalid op type')
+        pass
 
 class PostfixNotationVisitor(Visitor):
+    @calculate_values
     def calculate(self, node, left, right):
-        return '{left} {right} {op}'.format(
+        print('{left} {right} {op}'.format(
             left=str(left),
             right=str(right),
             op=node.op.value
-        )
+        ))
 
 class LispStyleNotationVisitor(Visitor):
+    @calculate_values
     def calculate(self, node, left, right):
-        return '({op} {left} {right})'.format(
+        print('({op} {left} {right})'.format(
             left=str(left),
             right=str(right),
             op=node.op.value
-        )
+        ))
 
 class Interpreter(object):
     '''

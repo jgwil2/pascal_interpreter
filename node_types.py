@@ -156,7 +156,7 @@ class UnaryOp(ASTNode):
 
     def __str__(self):
         return '{op} {expr}'.format(
-            op=self.op,
+            op=self.op.value,
             expr=self.expr
         )
 

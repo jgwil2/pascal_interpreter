@@ -1,18 +1,22 @@
 import sys
 
-from pascal_interpreter.interpreter import Interpreter, Visitor
-from pascal_interpreter.lexer import Lexer
+from pascal_interpreter.interpreter import Interpreter
 from pascal_interpreter.parser import Parser
+from pascal_interpreter.lexer import Lexer
+from pascal_interpreter.symbol_table import SymbolTableBuilderVisitor
+from pascal_interpreter.visitor import Visitor
 
 def interpret(text):
     lexer = Lexer(text)
     parser = Parser(lexer)
     tree = parser.parse()
     interpreter = Interpreter(tree)
-    calculator_visitor = Visitor()
-    result = interpreter.interpret(calculator_visitor)
-    # print(result)
-    for k, v in sorted(calculator_visitor.GLOBAL_SCOPE.items()):
+    symtable_builder = SymbolTableBuilderVisitor()
+    visitor = Visitor()
+    interpreter.interpret(symtable_builder)
+    result = interpreter.interpret(visitor)
+    print(symtable_builder.symtable)
+    for k, v in sorted(visitor.GLOBAL_SCOPE.items()):
         print('%s: %s' % (k, v))
 
 # TODO add debug argument to print full stacktrace

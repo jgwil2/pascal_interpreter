@@ -39,11 +39,11 @@ class SymbolTable(object):
         return s
 
     def define(self, symbol):
-        print('Define: %s' % symbol)
+        # print('Define: %s' % symbol)
         self._symbols[symbol.name] = symbol
 
     def lookup(self, name):
-        print('Lookup: %s' % name)
+        # print('Lookup: %s' % name)
         symbol = self._symbols.get(name)
         return symbol
 

@@ -22,12 +22,13 @@ def interpret(text):
 # TODO add debug argument to print full stacktrace
 def main():
     if len(sys.argv) > 1:
-        text = open(sys.argv[1], 'r').read()
+        with open(sys.argv[1], 'r') as f:
+            text = f.read()
         interpret(text)
     else:
         while True:
             try:
-                text = input('calc >')
+                text = input('pascal>')
             except EOFError:
                 break
 

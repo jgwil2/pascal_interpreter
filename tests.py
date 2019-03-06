@@ -85,18 +85,29 @@ class TestLexer(unittest.TestCase):
 class TestParser(unittest.TestCase):
 
     def setUp(self):
-        lexer = Lexer('-4 + (3 * 3)')
+        with open('test_vars.pas', 'r') as f:
+            test_script = f.read()
+        lexer = Lexer(test_script)
         self.parser = Parser(lexer)
 
     def test_init(self):
+        lexer = Lexer('-4 + (3 * 3)')
+        self.parser = Parser(lexer)
         self.assertEqual(self.parser.current_token, Token('MINUS', '-'))
 
     def test_eat(self):
+        lexer = Lexer('-4 + (3 * 3)')
+        self.parser = Parser(lexer)
         self.parser.eat('MINUS')
         self.assertEqual(self.parser.current_token, Token('INTEGER_CONST', 4))
 
         with self.assertRaises(Exception):
             self.eat('BEGIN')
+
+    def test_tree_name(self):
+        tree = self.parser.parse()
+        self.assertEqual(tree.name, 'TESTVARS')
+
 
 if __name__ == '__main__':
     unittest.main()

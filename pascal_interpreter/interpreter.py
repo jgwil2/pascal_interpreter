@@ -8,5 +8,5 @@ class Interpreter(object):
         self.tree = tree
 
     def interpret(self, visitor):
-        print(self.tree)
+        # print(self.tree)
         return self.tree.accept(visitor)

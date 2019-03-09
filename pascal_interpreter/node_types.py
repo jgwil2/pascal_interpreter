@@ -22,7 +22,7 @@ class Program(ASTNode):
         self.block = block
 
     def __str__(self):
-        return 'PROGRAM {}; {}'.format(self.name, self.block)
+        return 'PROGRAM: {{\r\nNAME: {},\r\nBLOCK: {{\r\n{}\r\n}}\r\n}}'.format(self.name, self.block)
 
     def accept(self, visitor):
         return visitor.visit_program(self)
@@ -36,8 +36,8 @@ class Block(ASTNode):
         self.compound_statement = compound_statement
 
     def __str__(self):
-        return 'VAR {} {}'.format(
-            ' '.join(map(str, self.declarations)),
+        return 'VAR: {{\r\n{}\r\n}}\r\n{}'.format(
+            ',\r\n'.join(map(str, self.declarations)),
             self.compound_statement
         )
 
@@ -53,7 +53,7 @@ class VarDecl(ASTNode):
         self.type_node = type_node
 
     def __str__(self):
-        return '{} {}'.format(self.var_node, self.type_node)
+        return '{}: {}'.format(self.var_node, self.type_node)
 
     def accept(self, visitor):
         return visitor.visit_var_decl(self)
@@ -77,7 +77,7 @@ class CompoundStatement(ASTNode):
         self.children = []
 
     def __str__(self):
-        return 'BEGIN ' + ' '.join(map(str, self.children)) + ' END'
+        return 'BEGIN\r\n' + ',\r\n'.join(map(str, self.children)) + '\r\nEND'
 
     def accept(self, visitor):
         return visitor.visit_compound(self)

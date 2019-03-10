@@ -21,7 +21,8 @@
     SEMI,
     DOT,
     COLON,
-    COMMA
+    COMMA,
+    PROCEDURE
 ) = (
     'INTEGER_CONST',
     'FLOAT_CONST',
@@ -44,7 +45,8 @@
     'SEMI',
     'DOT',
     'COLON',
-    'COMMA'
+    'COMMA',
+    'PROCEDURE'
 )
 
 KEYWORDS = {
@@ -64,7 +66,8 @@ KEYWORDS = {
     INTEGER: INTEGER,
     REAL: REAL,
     BEGIN: BEGIN,
-    END: END
+    END: END,
+    PROCEDURE: PROCEDURE
 }
 
 class Token(object):

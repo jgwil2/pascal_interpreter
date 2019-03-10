@@ -42,10 +42,13 @@ class Visitor(object):
     def visit_var_decl(self, node):
         pass
 
+    def visit_proc_decl(self, node):
+        pass
+
     def visit_type(self, node):
         pass
 
-    def visit_compound(self, node):
+    def visit_compound_statement(self, node):
         for child in node.children:
             child.accept(self)
 

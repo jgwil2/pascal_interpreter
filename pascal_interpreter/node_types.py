@@ -58,6 +58,20 @@ class VarDecl(ASTNode):
     def accept(self, visitor):
         return visitor.visit_var_decl(self)
 
+class ProcedureDecl(ASTNode):
+    '''
+    represents a procedure declaration
+    '''
+    def __init__(self, proc_name, block_node):
+        self.proc_name = proc_name
+        self.block_node = block_node
+
+    def __str__(self):
+        return '{}: {}'.format(self.proc_name, self.block_node)
+
+    def accept(self, visitor):
+        return visitor.visit_proc_decl(self)
+
 class Type(ASTNode):
     '''
     represents a variable type
@@ -80,7 +94,7 @@ class CompoundStatement(ASTNode):
         return 'BEGIN\r\n' + ',\r\n'.join(map(str, self.children)) + '\r\nEND'
 
     def accept(self, visitor):
-        return visitor.visit_compound(self)
+        return visitor.visit_compound_statement(self)
 
 class AssignmentStatement(ASTNode):
     '''

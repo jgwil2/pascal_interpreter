@@ -1,9 +1,9 @@
 from .keywords import (INTEGER_CONST, FLOAT_CONST, PLUS, MINUS, MUL, FLOAT_DIV,
     INTEGER_DIV, LPAREN, RPAREN, EOF, PROGRAM, VAR, INTEGER, REAL, BEGIN, END,
-    ID, ASSIGN, SEMI, DOT, COLON, COMMA)
+    ID, ASSIGN, SEMI, DOT, COLON, COMMA, PROCEDURE)
 
-from .node_types import (Program, Block, VarDecl, Type, CompoundStatement,
-    AssignmentStatement, Var, NoOp, BinOp, UnaryOp, Num)
+from .node_types import (Program, Block, VarDecl, ProcedureDecl, Type,
+    CompoundStatement, AssignmentStatement, Var, NoOp, BinOp, UnaryOp, Num)
 
 class Parser(object):
     def __init__(self, lexer):
@@ -42,6 +42,7 @@ class Parser(object):
     def declarations(self):
         '''
         declarations: VAR (variable_declaration SEMI)+
+                    | (PROCEDURE ID SEMI block SEMI)*
                     | empty
         '''
         declarations = []
@@ -51,6 +52,16 @@ class Parser(object):
                 var_decl = self.variable_declaration()
                 declarations.extend(var_decl)
                 self.eat(SEMI)
+
+        while self.current_token.type == PROCEDURE:
+            self.eat(PROCEDURE)
+            proc_name = self.current_token.value
+            self.eat(ID)
+            self.eat(SEMI)
+            block_node = self.block()
+            proc_decl = ProcedureDecl(proc_name, block_node)
+            declarations.append(proc_decl)
+            self.eat(SEMI)
 
         return declarations
 

@@ -58,6 +58,9 @@ class SymbolTableBuilderVisitor(Visitor):
         var_symbol = VarSymbol(var_name, type_symbol)
         self.symtable.define(var_symbol)
 
+    def visit_proc_decl(self, node):
+        pass
+
     def visit_assignment(self, node):
         var_name = node.left.value
         var_symbol = self.symtable.lookup(var_name)
